@@ -1,0 +1,5 @@
+groq==0.11.0
+python-dotenv==1.0.0
+requests==2.31.0
+PyGithub==2.3.0
+bandit==1.7.8

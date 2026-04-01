@@ -1,0 +1,63 @@
+name: SecureGate Security Review
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  security-review:
+    name: AI Security Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get install -y wget apt-transport-https gnupg
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
+            | sudo apt-key add -
+          echo "deb https://aquasecurity.github.io/trivy-repo/deb generic main" \
+            | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Run SecureGate
+        env:
+          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
+          GITHUB_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER:      ${{ github.event.pull_request.number }}
+          REPO_NAME:      ${{ github.repository }}
+          SCAN_PATH:      ${{ github.workspace }}
+        run: |
+          python securegate/scanner.py
+
+      - name: Upload scan results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: securegate-report
+          path: securegate_report.json
+          retention-days: 30
