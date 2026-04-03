@@ -5,11 +5,11 @@ import pickle
 import sqlite3
 
 # ── SECRET SCANNER will catch these ──────────────────────────────
-AWS_ACCESS_KEY    = "AKIAIOSFODNN7EXAMPLE"
-AWS_SECRET_KEY    = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-DATABASE_PASSWORD = "SuperSecret123!"
-API_KEY           = "sk-proj-abc123def456ghi789"
-GITHUB_TOKEN      = "ghp_1234567890abcdefghijklmnopqrstuvwxyz"
+AWS_ACCESS_KEY    = "sample"
+AWS_SECRET_KEY    = "sample"
+DATABASE_PASSWORD = "Sample"
+API_KEY           = "sample"
+GITHUB_TOKEN      = "sample"
 
 # ── BANDIT (SAST) will catch these ───────────────────────────────
 
