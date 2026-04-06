@@ -38,7 +38,7 @@ class ContainerScanner:
                 ],
                 capture_output=True,
                 text=True,
-                timeout=300
+                timeout=600
             )
 
             output = result.stdout.strip()
