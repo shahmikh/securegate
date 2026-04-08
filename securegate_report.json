@@ -1,0 +1,106 @@
+{
+  "repo": "shahmikh/securegate",
+  "pr_number": "",
+  "score": 100,
+  "risk_level": "CRITICAL",
+  "should_block": true,
+  "total_findings": 9,
+  "breakdown": {
+    "SECRET": {
+      "count": 2,
+      "score": 60.0,
+      "severities": {
+        "HIGH": 2
+      }
+    },
+    "SAST": {
+      "count": 7,
+      "score": 82.5,
+      "severities": {
+        "MEDIUM": 5,
+        "HIGH": 2
+      }
+    }
+  },
+  "analysis": {
+    "overall_risk": "HIGH",
+    "executive_summary": "This Pull Request introduces several security vulnerabilities, including hardcoded passwords, use of insecure functions, and potential SQL injection vectors. The presence of these issues poses a significant risk to the security of the application, and immediate attention is required to address them. If left unaddressed, these vulnerabilities could be exploited by attackers to gain unauthorized access or disrupt the application.",
+    "top_issues": [
+      "Hardcoded passwords in the `tests/vulnerable_sample.py` file, which could allow attackers to gain unauthorized access to the application or its data.",
+      "Use of insecure functions such as `exec`, `pickle.loads`, and `eval`, which could enable code injection or other types of attacks.",
+      "Potential SQL injection vector through string-based query construction, which could allow attackers to manipulate database queries and extract or modify sensitive data."
+    ],
+    "fixes": [
+      "Remove hardcoded passwords and replace them with secure password storage and retrieval mechanisms, such as environment variables or a secure secrets management system. Example: `password = os.environ['PASSWORD']`",
+      "Replace insecure functions with safer alternatives, such as `ast.literal_eval` instead of `eval`, and `json.loads` instead of `pickle.loads`. Example: `return ast.literal_eval(expression)`",
+      "Use parameterized queries or prepared statements to prevent SQL injection attacks. Example: `query = \"SELECT * FROM users WHERE username = ?\"; cursor.execute(query, (username,))`"
+    ],
+    "merge_recommendation": "BLOCK",
+    "merge_reason": "The presence of multiple high-severity security vulnerabilities in this Pull Request poses a significant risk to the security of the application, and it should not be merged until these issues are properly addressed."
+  },
+  "findings": [
+    {
+      "type": "SECRET",
+      "severity": "HIGH",
+      "name": "Generic Password",
+      "file": "tests/vulnerable_sample.py",
+      "line": 27
+    },
+    {
+      "type": "SECRET",
+      "severity": "HIGH",
+      "name": "Generic Password",
+      "file": "tests/vulnerable_sample.py",
+      "line": 31
+    },
+    {
+      "type": "SAST",
+      "severity": "MEDIUM",
+      "name": "B102 \u2014 exec_used",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 23
+    },
+    {
+      "type": "SAST",
+      "severity": "MEDIUM",
+      "name": "B301 \u2014 blacklist",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 36
+    },
+    {
+      "type": "SAST",
+      "severity": "MEDIUM",
+      "name": "B307 \u2014 blacklist",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 40
+    },
+    {
+      "type": "SAST",
+      "severity": "HIGH",
+      "name": "B602 \u2014 subprocess_popen_with_shell_equals_true",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 44
+    },
+    {
+      "type": "SAST",
+      "severity": "MEDIUM",
+      "name": "B310 \u2014 blacklist",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 53
+    },
+    {
+      "type": "SAST",
+      "severity": "HIGH",
+      "name": "B324 \u2014 hashlib",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 57
+    },
+    {
+      "type": "SAST",
+      "severity": "MEDIUM",
+      "name": "B608 \u2014 hardcoded_sql_expressions",
+      "file": "./tests/vulnerable_sample.py",
+      "line": 62
+    }
+  ]
+}
